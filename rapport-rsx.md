@@ -15,18 +15,18 @@
   - Activer et configurer les interfaces des 3 routeurs
     - Routeur 1:
     ```
-R1:~# ifconfig eth0 211.230.193.1/26
-R1:~# ifconfig eth1 211.230.193.129/26
+    ifconfig eth0 211.230.193.1/26
+    ifconfig eth1 211.230.193.129/26
     ```
     - Routeur 2:
     ```
-R2:~# ifconfig eth0 211.230.193.2/26
-R2:~# ifconfig eth1 211.230.193.65/26
+    ifconfig eth0 211.230.193.2/26
+    ifconfig eth1 211.230.193.65/26
     ```
     - Routeur 3:
     ```
-R3:~# ifconfig eth0 211.230.193.130/26
-R3:~# ifconfig eth1 211.230.193.193/26
+    ifconfig eth0 211.230.193.130/26
+    ifconfig eth1 211.230.193.193/26
     ```
 - En affichant les tables de routage à nouveau, celles-ci ne sont pas vides car les interfaces eth0 et eth1 de tous les routeurs ont été configurées.
 
@@ -34,19 +34,18 @@ R3:~# ifconfig eth1 211.230.193.193/26
 
 2 - Ajout des routes:
 ```
-R1:~# ip route add 211.230.193.64/26 via 211.230.193.2
-R1:~# ip route add 211.230.193.192/26 via 211.230.193.130
-R2:~# ip route add 211.230.193.128/26 via 211.230.193.1
-R2:~# ip route add 211.230.193.192/26 via 211.230.193.1
-R3:~# ip route add 211.230.193.0/26 via 211.230.193.129
-R3:~# ip route add 211.230.193.64/26 via 211.230.193.129
+ip route add 211.230.193.64/26 via 211.230.193.2
+ip route add 211.230.193.192/26 via 211.230.193.130
+ip route add 211.230.193.128/26 via 211.230.193.1
+ip route add 211.230.193.192/26 via 211.230.193.1
+ip route add 211.230.193.0/26 via 211.230.193.129
+ip route add 211.230.193.64/26 via 211.230.193.129
 ```
-
 
 **2 – TRACEROUTE:**
 -------------------
 
-1 - La commande `R2:~# traceroute 211.230.193.193` affiche en général le chemin empreinté par le paquet ip envoyé depuis l'interface eth0 du R2 vers l'interface eth1 du R3. En particulier, la commande imprime des lignes contenant le TTL suivi de l'adresse de la passerelle suivi du temps de déclechement de chaque. La commande affiche aussi le nombre maximale du paramètre TTL(à 64).
+1 - La commande `traceroute 211.230.193.193` affiche en général le chemin empreinté par le paquet ip envoyé depuis l'interface eth0 du R2 vers l'interface eth1 du R3. En particulier, la commande imprime des lignes contenant le TTL suivi de l'adresse de la passerelle suivi du temps de déclechement de chaque. La commande affiche aussi le nombre maximale du paramètre TTL(à 64).
 
 2 - Le TTL des paquets IP qui trasportent ces segments UDP est de 1. Non les 3 premiers segments UDP ne parviennent pas jusqu'à R3. En effet, même si ces segments sont à destination de R3, ils s'arrêtent au niveau du routeur R1 à cause d'un `time to live exceeded`. le routeur R2 va essayer de renvoyer à nouveau un segment UDP(avec le même TTL(à 1) dans le paquet IP qui transporte ce segment ). Par défaut, R2 va répeter cette opération 3 fois(c'est la raison pour laquelle on voit 3 segements UDP et 3 réponses ICMP).
 
