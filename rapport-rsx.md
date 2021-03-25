@@ -7,10 +7,10 @@
 1 - La commande ip route ne renvoie aucune table de routage pour les 3 routeurs car aucune route n'a été ajoutée.
 
   -  Les adresses des réseaux:
-      - Adresse du réseau a: 211.130.193.124/30
-      - Adresse du réseau A: 211.130.193.0/26  
-      - Adresse du réseau b: 211.130.193.244/30
-      - Adresse du réseau B: 211.130.193.128/26
+      - Adresse du réseau a: 211.130.193.0/26
+      - Adresse du réseau A: 211.130.193.64/26  
+      - Adresse du réseau b: 211.130.193.128/26
+      - Adresse du réseau B: 211.130.193.192/26
 
   - Activer et configurer les interfaces des 3 routeurs
     - Routeur 1:
