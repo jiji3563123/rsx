@@ -60,14 +60,14 @@ ip route add 211.230.193.64/26 via 211.230.193.129
 - R1: `ip link set dev eth1 mtu 1000`
 - R3: `ip link set dev eth0 mtu 1000`
 
-2 - `ping -c1 -s 1200 -M dont 211.230.193.128`
+2 - `ping -c1 -s 1200 -M dont 211.230.193.192`
 - Cette commande renvoie :
     - le nombre de packet transmit(en l'occurence, 1 paquet),
     - le nombre de packet reçu (en l'occurence, 0 packet reçu),
     - le pourcentage des données perdus(en l'occurence 100%).
 - Non, la requête ne parvient pas jusqu'à B, elle est perdue mais on remarque sur la capture de trame que les données ont été fragmenté.
 
-3 - `ping -c1 -s 1200 211.230.193.128`
+3 - `ping -c1 -s 1200 211.230.193.192`
 - Non la requête ne parvient pas à destination, elle s'arrête au niveau du routeur R1. Ce dernier renvoie à R2 un message ICMP indiquant que la destination est inaccessible et que la fragmentation des données est necessaire. Ainsi en regardant le paquet IP contenu dans la requête, on trouve que le flag `don't fragment` est mis à 1(activé). Ce qui explique que R1 n'a pas pu transmettre la requête au réseau `B`.
 
 4 - `tracepath 211.230.193.193`
@@ -78,10 +78,12 @@ ip route add 211.230.193.64/26 via 211.230.193.129
 - La dernière ligne résume toutes les infos sur tous les chemins vers R3:
     - Il montre le MTU du chemin detecté et le TTL.
 
+- On tape la commande dans R1 et R3 : `ping -c1 -s -M dont 1200 211.230.193.128` 
+
 **4 - RIP:**
 ------------
 
-- On supprime les routes à l'aide de la commande : `ip address del addressIP dev eth0/eth1`
+- On supprime les routes à l'aide de la commande : `ip route del addressIP`
 
 1 - L'adresse de destination des annonce RIP est 224.0.0.9. Les annonces sont envoyées chaque 30 secondes.
 
