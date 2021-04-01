@@ -1,5 +1,8 @@
 ################# Rapport TP 3 RSX2 ##########################
 
+#### LOUNAS HADJILA et KECHIR AHMED
+#### Groupe 2
+
 
 **1 – ROUTAGE STATIQUE :**
 --------------------------
@@ -33,11 +36,18 @@
 - La premiere et la deuxième adresse indiquent respectivement  l'adresse du sous réseau affecté aux interfaces eth0 et l'adresse du sous réseau affecté aux interfaces eth1. Les routes indiquent également les adresses de chacune des interfaces.
 
 2 - Ajout des routes:
+- Pour R1:
 ```
 ip route add 211.230.193.64/26 via 211.230.193.2
 ip route add 211.230.193.192/26 via 211.230.193.130
+```
+- Pour R2:
+```
 ip route add 211.230.193.128/26 via 211.230.193.1
 ip route add 211.230.193.192/26 via 211.230.193.1
+```
+- Pour R3:
+```
 ip route add 211.230.193.0/26 via 211.230.193.129
 ip route add 211.230.193.64/26 via 211.230.193.129
 ```
@@ -51,7 +61,7 @@ ip route add 211.230.193.64/26 via 211.230.193.129
 
 3 - le TTL des 3 paquets IP suivants reçu par R1 sont à 2. Oui, ces paquets parviennent jusqu'à R3. En effet, lorsque le routeur R2(qui va commencer cette fois-ci le TTL à 2) envoie le segment vers R3, le routeur R1 le reçoit en premier en essayant de décrémenter le TTL avant de le transmettre. Par conséquent, la valeur du TTL est à 1 et le routeur R1 transmet le segment vers R3. Ainsi, le segement arrive à sa destination et traceroute cesse de recevoir des TTL exceeded, et le routeur R2 recois un paquet ICMP réponse(Destination unreachable, car traceroute essaie de contacter volontairement un port invalide) provenant du R3.
 
-4 - Traceroute envoie un message de type `who has ...125? Tell ...1` avec le protocole ARP à tous les routeurs.
+4 - Traceroute envoie un message de type `who has ...125? Tell ...1`.
 
 **3 - TRACEPATH:**
 ------------------
@@ -85,7 +95,7 @@ ip route add 211.230.193.64/26 via 211.230.193.129
 
 - On supprime les routes à l'aide de la commande : `ip route del addressIP`
 
-1 - L'adresse de destination des annonce RIP est 224.0.0.9. Les annonces sont envoyées chaque 30 secondes.
+1 - L'adresse de destination des annonce RIP est 224.0.0.9 (multicast). Les annonces sont envoyées chaque 30 secondes.
 
 2 - Le routeur R2 communique à R1 les adresses réseaux qu'il connaît et envoie le résultat de calcul de la distance(métrique en nombre de sauts) sur ces adresses.
 
@@ -94,7 +104,7 @@ ip route add 211.230.193.64/26 via 211.230.193.129
   - La métrique associée au réseau A dans les annonces de R3 sera de 3, puisqu'il faut traverser R3 puis R1 puis R2
 
 4 - Oui les tables de routages confirment ma réponse précédente.
-Si on ajoute un lien directe entre R2 et R3, la métrique associée au réseau A sur R3 sera de 2. En effet l'annonce aura besoin de traverser le routeur R3 puis R2.
+Si on ajoute un lien directe entre R2 et R3, la métrique associée au réseau A  sera de 2 car il doit traverser 2 routeurs.
 
 **Quelques captures:**
 ----------------------
